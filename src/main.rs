@@ -1,6 +1,5 @@
-use std::io;
-
 use ncurses::*;
+use std::io;
 
 fn init_ncurses() {
     initscr();
@@ -22,7 +21,6 @@ fn main() {
 
     while !quit {
         let key = getch();
-
         match key as u8 as char {
             'q' => quit = true,
             // ARROW KEYS
