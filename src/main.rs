@@ -22,23 +22,30 @@ fn main() {
         "Play with the kids".to_string(),
         "Walk the wife".to_string(),
     ]);
-
-    display_todo_list(&mut todo_list);
-
+    let mut todo_cur: usize = 0;
     while !quit {
+        display_todo_list(&mut todo_list, todo_cur);
         let key = getch();
         match key as u8 as char {
             'q' => quit = true,
             // ARROW KEYS
-            'A' => quit = true,                      // up
-            'B' => quit = true,                      // down
+            'A' => {
+                if todo_cur != 0 {
+                    todo_cur -= 1;
+                }
+            } // up
+            'B' => {
+                if todo_cur != todo_list.len() - 1 {
+                    todo_cur += 1
+                }
+            } // down
             'D' => quit = true,                      // left
             'C' => quit = true,                      // right
             ' ' => quit = true,                      // SPACE
             '\n' => create_new_task(&mut todo_list), // ENTER
             _ => {
-                let key_as_char = key as u8;
-                addstr(&key_as_char.to_string());
+                // let key_as_char = key as u8;
+                // addstr(&key_as_char.to_string());
             }
         }
     }
@@ -46,8 +53,7 @@ fn main() {
     endwin();
 }
 
-fn display_todo_list(todo_list: &mut Vec<String>) {
-    let todo_cur = 0;
+fn display_todo_list(todo_list: &mut Vec<String>, todo_cur: usize) {
     for (index, todo) in todo_list.iter().enumerate() {
         let pair = {
             if todo_cur == index {
@@ -81,7 +87,7 @@ fn create_new_task(todo_list: &mut Vec<String>) {
     }
 
     init_ncurses();
-    display_todo_list(todo_list);
+    //  display_todo_list(todo_list, 0);
 }
 
 fn clean_up_terminal() {
