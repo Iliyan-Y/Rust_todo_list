@@ -1,9 +1,15 @@
 use ncurses::*;
 use std::io;
 
+const REGULAR: i16 = 0;
+const HIGHLIGHT: i16 = 1;
+
 fn init_ncurses() {
     initscr();
     noecho();
+    start_color();
+    init_pair(REGULAR, COLOR_WHITE, COLOR_BLACK);
+    init_pair(HIGHLIGHT, COLOR_BLACK, COLOR_GREEN);
     curs_set(CURSOR_VISIBILITY::CURSOR_INVISIBLE);
     clear();
 }
@@ -41,9 +47,19 @@ fn main() {
 }
 
 fn display_todo_list(todo_list: &mut Vec<String>) {
+    let todo_cur = 0;
     for (index, todo) in todo_list.iter().enumerate() {
+        let pair = {
+            if todo_cur == index {
+                HIGHLIGHT
+            } else {
+                REGULAR
+            }
+        };
+        attron(COLOR_PAIR(pair));
         mv(index as i32, 1);
         addstr(todo);
+        attroff(COLOR_PAIR(pair));
     }
 
     mv(todo_list.len() as i32 + 1, 1);
