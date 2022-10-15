@@ -18,6 +18,12 @@ pub fn clean_up_terminal() {
 }
 
 pub fn display_todo_list(todo_list: &mut Vec<String>, todo_cur_index: usize) {
+  let mut max_x = 0; // with
+  let mut max_y = 0; // height
+  let reserved_space = 5;
+  getmaxyx(stdscr(), &mut max_y, &mut max_x);
+  let border = max_y - reserved_space;
+
   for (index, todo) in todo_list.iter().enumerate() {
     let pair = {
       if todo_cur_index == index {
@@ -26,14 +32,26 @@ pub fn display_todo_list(todo_list: &mut Vec<String>, todo_cur_index: usize) {
         REGULAR
       }
     };
+
+    if index as i32 == border {
+      attron(COLOR_PAIR(pair));
+      mv(index as i32, 1);
+      addstr("....");
+      attroff(COLOR_PAIR(pair));
+      break;
+    }
+
     attron(COLOR_PAIR(pair));
     mv(index as i32, 1);
     addstr(todo);
     attroff(COLOR_PAIR(pair));
   }
-
-  mv(todo_list.len() as i32 + 1, 1);
-  addstr("-------------------MENU----------------------");
-  addstr("\n Press ENTER to add new task\n Press q to quit");
+  render_info(todo_list.len() as i32);
   refresh();
+}
+
+fn render_info(list_length: i32) {
+  mv(list_length + 1, 1);
+  addstr("\n -------------------MENU----------------------");
+  addstr("\n Press ENTER to add new task\n Press q to quit");
 }
