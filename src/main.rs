@@ -15,7 +15,7 @@ fn main() {
     // TODO REFACTOR
     //---------------
     let max_y = get_screen_h();
-    let reserved_space = 5;
+    let reserved_space = 4;
     let border = max_y as usize - reserved_space;
     let mut list_limit = {
       if border < todo_list.len() {
@@ -26,8 +26,8 @@ fn main() {
     };
 
     //---------------------
-
     display_todo_list(&mut todo_list, todo_cur_index, list_limit);
+
     let key = getch();
     match key as u8 as char {
       'q' => quit = true,
@@ -36,11 +36,18 @@ fn main() {
       'A' => {
         if todo_cur_index != 0 {
           todo_cur_index -= 1;
+          if todo_cur_index >= list_limit {
+            todo_list.rotate_right(1);
+          }
         }
       } // up
       'B' => {
-        if todo_cur_index != list_limit - 1 {
-          todo_cur_index += 1
+        if todo_cur_index != todo_list.len() - 1 {
+          todo_cur_index += 1;
+
+          if todo_cur_index > list_limit {
+            todo_list.rotate_left(1);
+          }
         }
       } // down
       'D' => quit = true, // left
