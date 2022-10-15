@@ -19,10 +19,9 @@ pub fn clean_up_terminal() {
 
 pub fn display_todo_list(todo_list: &mut Vec<String>, todo_cur_index: usize, list_limit: usize) {
   clear();
-
   for (index, todo) in todo_list.iter().enumerate() {
-    let mut pair = {
-      if todo_cur_index == index {
+    let pair = {
+      if todo_cur_index == index || (index == list_limit && todo_cur_index > list_limit) {
         HIGHLIGHT
       } else {
         REGULAR
@@ -34,17 +33,7 @@ pub fn display_todo_list(todo_list: &mut Vec<String>, todo_cur_index: usize, lis
     addstr(todo);
     attroff(COLOR_PAIR(pair));
 
-    let x = format!(
-      "\n index {}, current_index {}, list_limit {}",
-      index, todo_cur_index, list_limit,
-    );
-    addstr(&x);
-
-    //TODO: refactor to pace the list
-    //make the list "scrollable"
     if index >= list_limit {
-      // mv(index as i32, 1);
-      // addstr("....");
       break;
     }
   }
