@@ -10,8 +10,24 @@ fn main() {
   let mut quit = false;
   let mut todo_cur_index: usize = 0;
   let mut todo_list = load_state();
+
   while !quit {
-    display_todo_list(&mut todo_list, todo_cur_index);
+    // TODO REFACTOR
+    //---------------
+    let max_y = get_screen_h();
+    let reserved_space = 5;
+    let border = max_y as usize - reserved_space;
+    let mut list_limit = {
+      if border < todo_list.len() {
+        border
+      } else {
+        todo_list.len()
+      }
+    };
+
+    //---------------------
+
+    display_todo_list(&mut todo_list, todo_cur_index, list_limit);
     let key = getch();
     match key as u8 as char {
       'q' => quit = true,
@@ -23,7 +39,7 @@ fn main() {
         }
       } // up
       'B' => {
-        if todo_cur_index != todo_list.len() - 1 {
+        if todo_cur_index != list_limit - 1 {
           todo_cur_index += 1
         }
       } // down
@@ -40,4 +56,11 @@ fn main() {
   }
 
   endwin();
+}
+
+fn get_screen_h() -> i32 {
+  let mut max_x = 0; // with
+  let mut max_y = 0; // height
+  getmaxyx(stdscr(), &mut max_y, &mut max_x);
+  return max_y;
 }

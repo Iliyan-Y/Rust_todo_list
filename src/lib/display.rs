@@ -17,13 +17,7 @@ pub fn clean_up_terminal() {
   print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
 }
 
-pub fn display_todo_list(todo_list: &mut Vec<String>, todo_cur_index: usize) {
-  let mut max_x = 0; // with
-  let mut max_y = 0; // height
-  let reserved_space = 5;
-  getmaxyx(stdscr(), &mut max_y, &mut max_x);
-  let border = max_y - reserved_space;
-
+pub fn display_todo_list(todo_list: &mut Vec<String>, todo_cur_index: usize, list_limit: usize) {
   for (index, todo) in todo_list.iter().enumerate() {
     let pair = {
       if todo_cur_index == index {
@@ -33,7 +27,9 @@ pub fn display_todo_list(todo_list: &mut Vec<String>, todo_cur_index: usize) {
       }
     };
 
-    if index as i32 == border {
+    //TODO: refactor to pace the list
+    // make the list "scrollable"
+    if index == list_limit {
       attron(COLOR_PAIR(pair));
       mv(index as i32, 1);
       addstr("....");
@@ -52,6 +48,6 @@ pub fn display_todo_list(todo_list: &mut Vec<String>, todo_cur_index: usize) {
 
 fn render_info(list_length: i32) {
   mv(list_length + 1, 1);
-  addstr("\n -------------------MENU----------------------");
+  addstr("-------------------MENU----------------------");
   addstr("\n Press ENTER to add new task\n Press q to quit");
 }
