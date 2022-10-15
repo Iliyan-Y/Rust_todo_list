@@ -1,31 +1,15 @@
-use lib::display_list::display_todo_list;
+use lib::actions::*;
+use lib::display::*;
+use lib::state::*;
 use ncurses::*;
-use std::io;
 
 mod lib;
-
-const REGULAR: i16 = 0;
-const HIGHLIGHT: i16 = 1;
-
-fn init_ncurses() {
-  initscr();
-  noecho();
-  start_color();
-  init_pair(REGULAR, COLOR_WHITE, COLOR_BLACK);
-  init_pair(HIGHLIGHT, COLOR_BLACK, COLOR_GREEN);
-  curs_set(CURSOR_VISIBILITY::CURSOR_INVISIBLE);
-  clear();
-}
 
 fn main() {
   init_ncurses();
   let mut quit = false;
-  let mut todo_list = Vec::from([
-    "Read book".to_string(),
-    "Play with the kids".to_string(),
-    "Walk the wife".to_string(),
-  ]);
   let mut todo_cur_index: usize = 0;
+  let mut todo_list = load_state();
   while !quit {
     display_todo_list(&mut todo_list, todo_cur_index);
     let key = getch();
@@ -56,24 +40,4 @@ fn main() {
   }
 
   endwin();
-}
-
-fn create_new_task(todo_list: &mut Vec<String>) {
-  endwin();
-
-  let mut new_task = String::new();
-  clean_up_terminal();
-  println!("Enter task name: ");
-  io::stdin().read_line(&mut new_task).expect("error ");
-
-  if !(new_task.trim().is_empty()) {
-    todo_list.push(new_task);
-  }
-
-  init_ncurses();
-  //  display_todo_list(todo_list, 0);
-}
-
-fn clean_up_terminal() {
-  print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
 }
