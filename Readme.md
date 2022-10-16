@@ -5,3 +5,5 @@
 ### key map
 
 q = quite
+enter = new task
+space = done / pending
