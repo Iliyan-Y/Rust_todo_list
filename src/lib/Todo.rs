@@ -8,8 +8,8 @@ impl Todo {
     Todo { text, done: status }
   }
 
-  pub fn display(self) -> String {
-    return self.text;
+  pub fn display(&self) -> &String {
+    return &self.text;
   }
 
   pub fn status(self) -> bool {
