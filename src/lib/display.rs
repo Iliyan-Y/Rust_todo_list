@@ -32,8 +32,14 @@ pub fn display_todo_list(todo_list: &mut Vec<Todo>, todo_cur_index: usize, list_
 
     attron(COLOR_PAIR(pair));
     mv(index as i32, 1);
-
-    addstr(todo.display());
+    let output = {
+      if *todo.is_done() {
+        format!("[X]{}", todo.display())
+      } else {
+        format!("[ ]{}", todo.display())
+      }
+    };
+    addstr(&output);
     attroff(COLOR_PAIR(pair));
 
     if index >= list_limit {

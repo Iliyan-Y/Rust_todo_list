@@ -12,8 +12,8 @@ impl Todo {
     return &self.text;
   }
 
-  pub fn status(self) -> bool {
-    return self.done;
+  pub fn is_done(&self) -> &bool {
+    return &self.done;
   }
 
   pub fn update_status(&mut self, status: bool) {
