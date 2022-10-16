@@ -19,3 +19,8 @@ pub fn create_new_task(todo_list: &mut Vec<Todo>) {
   init_ncurses();
   //  display_todo_list(todo_list, 0);
 }
+
+pub fn change_task_state() -> bool {
+  // TODO: logic for change task state
+  true
+}
