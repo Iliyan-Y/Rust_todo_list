@@ -1,5 +1,7 @@
 use ncurses::*;
 
+use super::Todo::Todo;
+
 const REGULAR: i16 = 0;
 const HIGHLIGHT: i16 = 1;
 
@@ -17,7 +19,7 @@ pub fn clean_up_terminal() {
   print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
 }
 
-pub fn display_todo_list(todo_list: &mut Vec<String>, todo_cur_index: usize, list_limit: usize) {
+pub fn display_todo_list(todo_list: &mut Vec<Todo>, todo_cur_index: usize, list_limit: usize) {
   clear();
   for (index, todo) in todo_list.iter().enumerate() {
     let pair = {
@@ -30,7 +32,14 @@ pub fn display_todo_list(todo_list: &mut Vec<String>, todo_cur_index: usize, lis
 
     attron(COLOR_PAIR(pair));
     mv(index as i32, 1);
-    addstr(todo);
+    let output = {
+      if *todo.is_done() {
+        format!("[X]{}", todo.display())
+      } else {
+        format!("[ ]{}", todo.display())
+      }
+    };
+    addstr(&output);
     attroff(COLOR_PAIR(pair));
 
     if index >= list_limit {
