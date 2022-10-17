@@ -53,9 +53,8 @@ fn main() {
       'D' => quit = true, // left
       'C' => quit = true, // right
       // -----
-      // TODO SPACE switch the task state
-      ' ' => quit = change_task_state(),       // SPACE
-      '\n' => create_new_task(&mut todo_list), // ENTER
+      ' ' => change_task_state(&mut todo_list, todo_cur_index), // SPACE
+      '\n' => create_new_task(&mut todo_list),                  // ENTER
       _ => {
         // let key_as_char = key as u8;
         // addstr(&key_as_char.to_string());
