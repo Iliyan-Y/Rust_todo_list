@@ -17,7 +17,7 @@ fn main() {
     let max_y = get_screen_h();
     let reserved_space = 4;
     let border = max_y as usize - reserved_space;
-    let mut list_limit = {
+    let list_limit = {
       if border < todo_list.len() {
         border
       } else {
@@ -26,7 +26,7 @@ fn main() {
     };
 
     //---------------------
-    display_todo_list(&mut todo_list, todo_cur_index, list_limit);
+    display_todo_list(&todo_list, todo_cur_index, list_limit);
 
     let key = getch();
     match key as u8 as char {

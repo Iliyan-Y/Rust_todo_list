@@ -19,7 +19,7 @@ pub fn clean_up_terminal() {
   print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
 }
 
-pub fn display_todo_list(todo_list: &mut Vec<Todo>, todo_cur_index: usize, list_limit: usize) {
+pub fn display_todo_list(todo_list: &Vec<Todo>, todo_cur_index: usize, list_limit: usize) {
   clear();
   for (index, todo) in todo_list.iter().enumerate() {
     let pair = {
