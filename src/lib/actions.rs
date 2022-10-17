@@ -2,7 +2,7 @@ use crate::lib::display::*;
 use ncurses::*;
 use std::io;
 
-use super::Todo::*;
+use super::{state::save_state, Todo::*};
 
 pub fn create_new_task(todo_list: &mut Vec<Todo>) {
   endwin();
@@ -22,4 +22,9 @@ pub fn create_new_task(todo_list: &mut Vec<Todo>) {
 pub fn change_task_state(todo_list: &mut Vec<Todo>, selected_index: usize) {
   let new_status = !todo_list[selected_index].is_done().clone();
   todo_list[selected_index].update_status(new_status);
+}
+
+pub fn save_and_exit(todo_list: &Vec<Todo>) -> bool {
+  let save_result = save_state(&todo_list);
+  return save_result;
 }

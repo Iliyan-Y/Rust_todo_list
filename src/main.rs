@@ -30,7 +30,7 @@ fn main() {
 
     let key = getch();
     match key as u8 as char {
-      'q' => quit = true,
+      'q' => quit = save_and_exit(&todo_list),
       // ARROW UP
       'A' => {
         if todo_cur_index != 0 {
