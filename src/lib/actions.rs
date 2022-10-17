@@ -17,11 +17,9 @@ pub fn create_new_task(todo_list: &mut Vec<Todo>) {
   }
 
   init_ncurses();
-  //  display_todo_list(todo_list, 0);
 }
 
 pub fn change_task_state(todo_list: &mut Vec<Todo>, selected_index: usize) {
-  // TODO: logic for change task state
   let new_status = !todo_list[selected_index].is_done().clone();
   todo_list[selected_index].update_status(new_status);
 }

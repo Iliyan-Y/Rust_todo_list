@@ -31,8 +31,7 @@ fn main() {
     let key = getch();
     match key as u8 as char {
       'q' => quit = true,
-      // ARROW KEYS
-      // -----
+      // ARROW UP
       'A' => {
         if todo_cur_index != 0 {
           todo_cur_index -= 1;
@@ -40,7 +39,8 @@ fn main() {
             todo_list.rotate_right(1);
           }
         }
-      } // up
+      }
+      // ARROW DOWN
       'B' => {
         if todo_cur_index != todo_list.len() - 1 {
           todo_cur_index += 1;
@@ -49,12 +49,16 @@ fn main() {
             todo_list.rotate_left(1);
           }
         }
-      } // down
-      'D' => quit = true, // left
-      'C' => quit = true, // right
+      }
+      // left
+      'D' => quit = true,
+      // right
+      'C' => quit = true,
       // -----
-      ' ' => change_task_state(&mut todo_list, todo_cur_index), // SPACE
-      '\n' => create_new_task(&mut todo_list),                  // ENTER
+      // SPACE
+      ' ' => change_task_state(&mut todo_list, todo_cur_index),
+      // ENTER
+      '\n' => create_new_task(&mut todo_list),
       _ => {
         // let key_as_char = key as u8;
         // addstr(&key_as_char.to_string());
