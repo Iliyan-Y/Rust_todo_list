@@ -1,7 +1,13 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, PartialEq, Debug)]
-pub struct Todo_List(Vec<Todo>);
+pub struct TodoList(Vec<Todo>);
+
+impl TodoList {
+  pub fn new(todos: Vec<Todo>) -> TodoList {
+    TodoList(todos)
+  }
+}
 
 #[derive(Serialize, Deserialize, PartialEq, Debug)]
 pub struct Todo {
