@@ -1,3 +1,9 @@
+use serde::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize, PartialEq, Debug)]
+pub struct Todo_List(Vec<Todo>);
+
+#[derive(Serialize, Deserialize, PartialEq, Debug)]
 pub struct Todo {
   text: String,
   done: bool,
