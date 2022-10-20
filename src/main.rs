@@ -31,6 +31,7 @@ fn main() {
     let key = getch();
     match key as u8 as char {
       'q' => quit = save_and_exit(&todo_list),
+      'r' => delete(&mut todo_list, todo_cur_index),
       // ARROW UP
       'A' => {
         if todo_cur_index != 0 {

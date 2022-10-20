@@ -6,6 +6,7 @@
 
 - q = quite
 - enter = new task
-- space = done / pending
+- space = done / undone
+- r = remove
 - arrow up = go up the list
 - arrow down = go down the list

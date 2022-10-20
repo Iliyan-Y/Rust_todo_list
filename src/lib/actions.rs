@@ -28,3 +28,9 @@ pub fn save_and_exit(todo_list: &Vec<Todo>) -> bool {
   let save_result = save_state(&todo_list);
   return save_result;
 }
+
+pub fn delete(todo_list: &mut Vec<Todo>, index: usize) {
+  if todo_list.len() > 1 {
+    todo_list.remove(index);
+  }
+}

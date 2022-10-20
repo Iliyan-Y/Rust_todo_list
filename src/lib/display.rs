@@ -53,5 +53,5 @@ pub fn display_todo_list(todo_list: &Vec<Todo>, todo_cur_index: usize, list_limi
 fn render_info(list_length: i32) {
   mv(list_length + 1, 1);
   addstr("\n-------------------MENU----------------------");
-  addstr("\n Press ENTER to add new task\n Press q to quit");
+  addstr("\n ENTER = new; r = remove;\n SPACE = done/undone; q = quit");
 }
