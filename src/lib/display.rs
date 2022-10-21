@@ -57,16 +57,25 @@ pub fn display_todo_list(
 }
 
 fn render_list_to_display(todo_list: &Vec<Todo>, list_view_cycle: i32) -> Vec<Todo> {
+  let mut todo_clone = todo_list.clone();
   match list_view_cycle {
     1 => {
-      return todo_list
+      todo_clone.insert(0, Todo::new("--==NOT DONE==--".to_string(), false));
+      return todo_clone
         .iter()
         .cloned()
         .filter(|f| !*f.is_done())
-        .collect()
+        .collect();
     }
-    -1 => return todo_list.iter().cloned().filter(|f| *f.is_done()).collect(),
-    _ => return todo_list.clone(),
+    -1 => {
+      todo_clone.insert(0, Todo::new("--==Done==--".to_string(), true));
+      return todo_clone
+        .iter()
+        .cloned()
+        .filter(|f| *f.is_done())
+        .collect();
+    }
+    _ => return todo_clone,
   }
 }
 
