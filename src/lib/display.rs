@@ -19,9 +19,15 @@ pub fn clean_up_terminal() {
   print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
 }
 
-pub fn display_todo_list(todo_list: &Vec<Todo>, todo_cur_index: usize, list_limit: usize) {
+pub fn display_todo_list(
+  todo_list: &Vec<Todo>,
+  todo_cur_index: usize,
+  list_limit: usize,
+  list_view_cycle: i32,
+) {
+  let list_to_display = render_list_to_display(todo_list, list_view_cycle);
   clear();
-  for (index, todo) in todo_list.iter().enumerate() {
+  for (index, todo) in list_to_display.iter().enumerate() {
     let pair = {
       if todo_cur_index == index || (index == list_limit && todo_cur_index > list_limit) {
         HIGHLIGHT
@@ -48,6 +54,20 @@ pub fn display_todo_list(todo_list: &Vec<Todo>, todo_cur_index: usize, list_limi
   }
   render_info(todo_list.len() as i32);
   refresh();
+}
+
+fn render_list_to_display(todo_list: &Vec<Todo>, list_view_cycle: i32) -> Vec<Todo> {
+  match list_view_cycle {
+    1 => return todo_list.iter().cloned().filter(|f| *f.is_done()).collect(),
+    -1 => {
+      return todo_list
+        .iter()
+        .cloned()
+        .filter(|f| !*f.is_done())
+        .collect()
+    }
+    _ => return todo_list.clone(),
+  }
 }
 
 fn render_info(list_length: i32) {

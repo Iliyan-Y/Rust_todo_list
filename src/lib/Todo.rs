@@ -9,7 +9,7 @@ impl TodoList {
   }
 }
 
-#[derive(Serialize, Deserialize, PartialEq, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
 pub struct Todo {
   text: String,
   done: bool,

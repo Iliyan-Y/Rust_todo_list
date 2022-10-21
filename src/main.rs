@@ -1,6 +1,7 @@
 use lib::actions::*;
 use lib::display::*;
 use lib::state::*;
+use lib::Todo::Todo;
 use ncurses::*;
 
 mod lib;
@@ -9,24 +10,12 @@ fn main() {
   init_ncurses();
   let mut quit = false;
   let mut todo_cur_index: usize = 0;
+  let mut list_view_cycle = 0;
   let mut todo_list = load_state();
 
   while !quit {
-    // TODO REFACTOR
-    //---------------
-    let max_y = get_screen_h();
-    let reserved_space = 4;
-    let border = max_y as usize - reserved_space;
-    let list_limit = {
-      if border < todo_list.len() {
-        border
-      } else {
-        todo_list.len()
-      }
-    };
-
-    //---------------------
-    display_todo_list(&todo_list, todo_cur_index, list_limit);
+    let list_limit = display_list_limit(&todo_list);
+    display_todo_list(&todo_list, todo_cur_index, list_limit, list_view_cycle);
 
     let key = getch();
     match key as u8 as char {
@@ -51,10 +40,19 @@ fn main() {
           }
         }
       }
-      // left
-      'D' => quit = true,
       // right
-      'C' => quit = true,
+      'C' => {
+        if list_view_cycle != 1 {
+          list_view_cycle += 1
+        }
+      }
+      // left
+      'D' => {
+        if list_view_cycle != -1 {
+          list_view_cycle -= 1
+        }
+      }
+
       // -----
       // SPACE
       ' ' => change_task_state(&mut todo_list, todo_cur_index),
@@ -68,6 +66,20 @@ fn main() {
   }
 
   endwin();
+}
+
+fn display_list_limit(todo_list: &Vec<Todo>) -> usize {
+  let max_y = get_screen_h();
+  let reserved_space = 4;
+  let border = max_y as usize - reserved_space;
+  let list_limit = {
+    if border < todo_list.len() {
+      border
+    } else {
+      todo_list.len()
+    }
+  };
+  return list_limit;
 }
 
 fn get_screen_h() -> i32 {
