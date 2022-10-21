@@ -58,14 +58,14 @@ pub fn display_todo_list(
 
 fn render_list_to_display(todo_list: &Vec<Todo>, list_view_cycle: i32) -> Vec<Todo> {
   match list_view_cycle {
-    1 => return todo_list.iter().cloned().filter(|f| *f.is_done()).collect(),
-    -1 => {
+    1 => {
       return todo_list
         .iter()
         .cloned()
         .filter(|f| !*f.is_done())
         .collect()
     }
+    -1 => return todo_list.iter().cloned().filter(|f| *f.is_done()).collect(),
     _ => return todo_list.clone(),
   }
 }

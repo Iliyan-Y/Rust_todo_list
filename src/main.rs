@@ -43,13 +43,15 @@ fn main() {
       // right
       'C' => {
         if list_view_cycle != 1 {
-          list_view_cycle += 1
+          todo_cur_index = 0;
+          list_view_cycle += 1;
         }
       }
       // left
       'D' => {
         if list_view_cycle != -1 {
-          list_view_cycle -= 1
+          todo_cur_index = 0;
+          list_view_cycle -= 1;
         }
       }
 

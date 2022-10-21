@@ -8,5 +8,7 @@
 - enter = new task
 - space = done / undone
 - r = remove
-- arrow up = go up the list
-- arrow down = go down the list
+- up arrow = go up the list
+- down arrow = go down the list
+- right arrow = display not done list
+- left arrow = display done list
